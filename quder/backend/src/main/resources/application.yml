@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo-backend
+
+# 日志配置
+logging:
+  level:
+    com.example.demo: DEBUG
+    org.springframework.web: INFO
