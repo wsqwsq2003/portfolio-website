@@ -1,0 +1,10 @@
+# Railway 平台配置
+# Railway 会自动检测 Java + Maven 项目
+
+# 指定 Java 版本
+[build]
+builder = "NIXPACKS"
+
+# 启动命令
+[start]
+cmd = "cd backend && mvn spring-boot:run"
