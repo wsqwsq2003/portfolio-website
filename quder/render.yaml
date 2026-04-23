@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: qqqqq-demo-backend
+    name: portfolio-backend
     runtime: java
     buildCommand: cd backend && mvn clean package -DskipTests
     startCommand: cd backend && java -jar target/*.jar
@@ -9,4 +9,6 @@ services:
         value: 8080
       - key: JAVA_OPTS
         value: -Xmx512m
-    healthCheckPath: /api/users
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+    healthCheckPath: /api/portfolio/health
