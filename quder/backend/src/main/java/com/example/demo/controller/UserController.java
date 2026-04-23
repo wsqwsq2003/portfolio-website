@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173") // 允许前端访问
+@CrossOrigin(origins = {"http://localhost:5173", "https://qqqqq-demo.vercel.app"}) // 允许前端访问
 public class UserController {
     
     private final UserService userService;
