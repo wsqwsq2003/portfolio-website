@@ -3,6 +3,7 @@ services:
     name: portfolio-backend
     runtime: java
     plan: free
+    rootDir: backend
     buildCommand: mvn clean package -DskipTests
     startCommand: java -jar target/*.jar
     envVars:
