@@ -1,45 +1,37 @@
-# Dependencies
+# Node modules
 node_modules/
-*/node_modules/
 
-# Build outputs
+# Build output
 dist/
-build/
-*/dist/
+
+# Environment
+.env
+.env.local
+
+# OS files
+.DS_Store
+desktop.ini
+Thumbs.db
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# OS
-.DS_Store
-Thumbs.db
+# Personal files
+*.xlsx
+*.xls
+*.pdf
+*.pptx
+*.docx
+*.lnk
+*.url
+dw/
+vibe_images/
+screenshot_*.png
+netlify-404-screenshot.png
 
 # Logs
 *.log
-npm-debug.log*
 
-# Environment variables
-.env
-.env.local
-.env.*.local
-.env.production
-
-# Keep example env files
-!.env.example
-!.env.development
-!.env.production
-
-# Java
-*.class
-*.jar
-*.war
-*.ear
-target/
-
-# Maven
-.mvn/
-mvnw
-mvnw.cmd
+# Temp
+.vercel-tmp/

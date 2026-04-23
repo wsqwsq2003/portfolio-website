@@ -1,5 +1,7 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react"
 import type { Locale } from "./i18n/types"
+import { fetchContent, saveContent as saveToServer, isServerAvailable } from "./api"
+import { initWebSocket, onContentUpdate, offContentUpdate } from "./websocket"
 
 // ---- Editable data types (language-independent structure) ----
 
@@ -405,17 +407,85 @@ const ContentContext = createContext<ContentContextType | null>(null)
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<Record<Locale, SiteContent>>(loadContent)
 
+  // Load from server on mount
+  useEffect(() => {
+    let mounted = true
+
+    const syncFromServer = async () => {
+      const available = await isServerAvailable()
+      if (!available || !mounted) return
+
+      // Initialize WebSocket
+      initWebSocket()
+
+      // Fetch content for all locales
+      const locales: Locale[] = ['zh', 'en', 'ja', 'ko', 'fr', 'es']
+      const updates: Partial<Record<Locale, SiteContent>> = {}
+
+      for (const locale of locales) {
+        const serverData = await fetchContent(locale)
+        if (serverData && serverData.content) {
+          try {
+            updates[locale] = JSON.parse(serverData.content)
+          } catch (e) {
+            console.error(`Failed to parse content for ${locale}:`, e)
+          }
+        }
+      }
+
+      if (Object.keys(updates).length > 0 && mounted) {
+        setContent(prev => {
+          const next = { ...prev, ...updates }
+          saveContent(next)
+          return next
+        })
+      }
+    }
+
+    syncFromServer()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  // Setup WebSocket listeners
+  useEffect(() => {
+    const handleUpdate = (locale: string, serverContent: SiteContent) => {
+      setContent(prev => ({ ...prev, [locale]: serverContent }))
+    }
+
+    const locales: Locale[] = ['zh', 'en', 'ja', 'ko', 'fr', 'es']
+    locales.forEach(locale => {
+      onContentUpdate(locale, handleUpdate)
+    })
+
+    return () => {
+      locales.forEach(locale => {
+        offContentUpdate(locale)
+      })
+    }
+  }, [])
+
   const getContent = useCallback(
     (locale: Locale) => content[locale] || defaultContent[locale],
     [content]
   )
 
-  const updateContent = useCallback((locale: Locale, data: SiteContent) => {
+  const updateContent = useCallback(async (locale: Locale, data: SiteContent) => {
+    // Update local state immediately
     setContent((prev) => {
       const next = { ...prev, [locale]: data }
       saveContent(next)
       return next
     })
+
+    // Sync to server asynchronously
+    try {
+      await saveToServer(locale, data)
+    } catch (error) {
+      console.warn('Failed to sync to server:', error)
+    }
   }, [])
 
   const resetContent = useCallback(() => {

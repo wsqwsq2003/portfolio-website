@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: wangshouqing-backend
+    runtime: java
+    buildCommand: cd backend && mvn clean package -DskipTests
+    startCommand: cd backend && java -jar target/*.jar
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: JAVA_OPTS
+        value: -Xmx512m
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+    healthCheckPath: /api/users
