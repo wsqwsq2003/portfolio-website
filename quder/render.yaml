@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: qqqqq-demo-backend
+    env: java
+    buildCommand: cd backend && mvn clean package -DskipTests
+    startCommand: cd backend && java -jar target/*.jar
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: JAVA_OPTS
+        value: -Xmx512m
