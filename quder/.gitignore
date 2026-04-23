@@ -26,6 +26,11 @@ npm-debug.log*
 .env.local
 .env.*.local
 
+# Keep example env files
+!.env.example
+!.env.development
+!.env.production
+
 # Java
 *.class
 *.jar
