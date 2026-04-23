@@ -25,6 +25,7 @@ npm-debug.log*
 .env
 .env.local
 .env.*.local
+.env.production
 
 # Keep example env files
 !.env.example
