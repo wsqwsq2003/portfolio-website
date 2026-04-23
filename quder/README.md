@@ -2,7 +2,17 @@
 
 这是一个前后端分离的全栈项目示例，后端使用 Spring Boot 3.x + Java 21，前端使用 Vue 3 + TypeScript + Element Plus。
 
-## 项目结构
+## 🚀 一键部署
+
+### 部署到 Netlify（推荐）
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Wangshou123/qqqqq-demo)
+
+### 部署到 Vercel
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Wangshou123/qqqqq-demo)
+
+---
+
+## 项目简介
 
 ```
 quder/
