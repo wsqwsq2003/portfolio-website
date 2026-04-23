@@ -2,8 +2,9 @@ services:
   - type: web
     name: portfolio-backend
     runtime: java
-    buildCommand: cd backend && mvn clean package -DskipTests
-    startCommand: cd backend && java -jar target/*.jar
+    plan: free
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/*.jar
     envVars:
       - key: PORT
         value: 8080
